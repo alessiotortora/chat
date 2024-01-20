@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
+import Online from "./Online";
 
 export default function Header({ user }: { user: User | undefined }) {
   const router = useRouter();
@@ -29,10 +30,7 @@ export default function Header({ user }: { user: User | undefined }) {
       <div className="p-5 border-b flex items-center justify-between h-full">
         <div>
           <h1 className="text-xl font-bold">Daily Chat</h1>
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse"></div>
-            <h1 className="text-sm text-gray-400">2 online</h1>
-          </div>
+          <Online />
         </div>
         <div>
           {user ? (
