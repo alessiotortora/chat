@@ -1,3 +1,4 @@
+import ChatAbout from "@/components/ChatAbout";
 import ChatInput from "@/components/ChatInput";
 import ChatMessages from "@/components/ChatMessages";
 import Header from "@/components/header";
@@ -14,8 +15,14 @@ export default async function Home() {
       <div className="max-w-3xl mx-auto md:py-10 h-screen">
         <div className="h-full border rounded-md flex flex-col relative">
           <Header user={data.session?.user} />
-          <ChatMessages />
-          <ChatInput />
+          {data.session?.user ? (
+            <>
+              <ChatMessages />
+              <ChatInput />
+            </>
+          ) : (
+            <ChatAbout />
+          )}
         </div>
       </div>
       <InitUser user={data.session?.user} />

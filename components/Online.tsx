@@ -2,21 +2,26 @@
 
 import { useUser } from "@/lib/store/user";
 import { supabaseBrowser } from "@/lib/supabase/browser";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Online() {
   const user = useUser((state) => state.user);
   const supabase = supabaseBrowser();
+
+  const [onlineUser, setOnlineUser] = useState(0);
 
   useEffect(() => {
     const channel = supabase.channel("room1");
     channel
       .on("presence", { event: "sync" }, () => {
         console.log("Synced presence state: ", channel.presenceState());
-        const userIds = []
-        for ( const id in channel.presenceState()) {
-            userIds.push(channel.presenceState()[id])
+        const userIds = [];
+        for (const id in channel.presenceState()) {
+          // @ts-ignore
+          userIds.push(channel.presenceState()[id][0].user_id);
         }
+
+        setOnlineUser([...new Set(userIds)].length);
       })
       .subscribe(async (status) => {
         if (status === "SUBSCRIBED") {
@@ -34,7 +39,7 @@ export default function Online() {
   return (
     <div className="flex items-center gap-2">
       <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse"></div>
-      <h1 className="text-sm text-gray-400">2 online</h1>
+      <h1 className="text-sm text-gray-400">{onlineUser} online</h1>
     </div>
   );
 }

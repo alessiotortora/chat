@@ -108,11 +108,11 @@ export default function ListMessages() {
   return (
     <>
       <div
-        className="flex-1 flex flex-col p-5 h-full overflow-y-auto gap-4"
+        className="flex-1 flex flex-col p-5 h-full overflow-y-auto"
         ref={scrollRef}
         onScroll={handleOnScroll}
       >
-        <div className="flex-1">
+        <div className="flex-1 pb-5">
           <LoadMore />
         </div>
         <div className="space-y-7">
